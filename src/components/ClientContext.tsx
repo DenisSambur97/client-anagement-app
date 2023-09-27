@@ -1,53 +1,72 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import '../constants/clients'
-import {initClients} from "../constants/clients";
+import '../constants/clients';
+import { initClients } from '../constants/clients';
 
-const ClientContext = createContext();
+export interface Client {
+    name: string;
+    age: number;
+    subscription: string;
+    employment: boolean;
+}
 
-export function ClientProvider({ children }) {
-    const [clients, setClients] = useState(initClients);
-    const [dayMode, setDayMode] = useState(false);
+export interface ClientContextType {
+    clients: Client[];
+    updateClient: (index: number, updatedClient: Client) => void;
+    addClient: (newClient: Client) => void;
+    removeClient: (index: number) => void;
+    dayMode: boolean;
+    setDayMode: (mode: boolean) => void;
+    selectedClient: Client | null;
+    setSelectedClient: (client: Client | null) => void;
+}
 
-    // Загрузка данных из localStorage при инициализации
+const ClientContext = createContext<ClientContextType | undefined>(undefined);
+
+export function ClientProvider({ children }: { children: React.ReactNode }) {
+    const [clients, setClients] = useState<Client[]>(initClients);
+    const [dayMode, setDayMode] = useState<boolean>(false);
+    const [selectedClient, setSelectedClient] = useState<Client | null>(null);
+
     useEffect(() => {
         const storedClients = localStorage.getItem('clients');
         if (storedClients) {
             setClients(JSON.parse(storedClients));
         } else {
-            setClients(initClients); // Установка начальных данных, если localStorage пуст
+            setClients(initClients);
         }
     }, []);
 
-    // Обновление данных клиента по индексу и сохранение в localStorage
-    function updateClient(index, updatedClient) {
+    function updateClient(index: number, updatedClient: Client) {
         const newClients = [...clients];
         newClients[index] = updatedClient;
         setClients(newClients);
-        localStorage.setItem('clients', JSON.stringify(newClients)); // Сохраняем в localStorage
+        localStorage.setItem('clients', JSON.stringify(newClients));
     }
 
-    // Добавление нового клиента
-    function addClient(newClient) {
+    function addClient(newClient: Client) {
         const updatedClients = [...clients, newClient];
         setClients(updatedClients);
-        localStorage.setItem('clients', JSON.stringify(updatedClients)); // Сохраняем в localStorage
+        localStorage.setItem('clients', JSON.stringify(updatedClients));
     }
 
-    // Удаление клиента по индексу
-    function removeClient(index) {
+    function removeClient(index: number) {
         const updatedClients = [...clients];
         updatedClients.splice(index, 1);
         setClients(updatedClients);
-        localStorage.setItem('clients', JSON.stringify(updatedClients)); // Сохраняем в localStorage
+        localStorage.setItem('clients', JSON.stringify(updatedClients));
     }
 
     return (
-        <ClientContext.Provider value={{ clients, updateClient, addClient, removeClient, dayMode, setDayMode }}>
+        <ClientContext.Provider value={{ clients, updateClient, addClient, removeClient, dayMode, setDayMode, selectedClient, setSelectedClient }}>
             {children}
         </ClientContext.Provider>
     );
 }
 
 export function useClientContext() {
-    return useContext(ClientContext);
+    const context = useContext(ClientContext);
+    if (context === undefined) {
+        throw new Error('useClientContext must be used within a ClientProvider');
+    }
+    return context;
 }

@@ -1,0 +1,16 @@
+export const initClients = [
+    {name: 'John Smith', age: '32', subscription: 'Subscribed', employment: 'Employed'},
+    {name: 'Jane Doe', age: '24', subscription: 'Not Subscribed', employment: 'Employed'},
+    {name: 'Bob Johnson', age: '45', subscription: 'Subscribed', employment: 'Employed'},
+    {name: 'Alice Wong', age: '38', subscription: 'Other', employment: 'Employed'},
+    {name: 'Mark Lee', age: '28', subscription: 'Subscribed', employment: 'Unemployed'},
+    {name: 'Emily Chen', age: '31', subscription: 'Not Subscribed', employment: 'Unemployed'},
+    {name: 'David Kim', age: '29', subscription: 'Subscribed', employment: 'Employed'},
+    {name: 'Karen Wu', age: '37', subscription: 'Subscribed', employment: 'Employed'},
+    {name: 'Tom Brown', age: '43', subscription: 'Other', employment: 'Employed'},
+    {name: 'Lise Park', age: '26', subscription: 'Not Subscribed', employment: 'Unemployed'},
+    {name: 'Michael Kim', age: '33', subscription: 'Subscribed', employment: 'Employed'},
+    {name: 'Sarah Lee', age: '29', subscription: 'Subscribed', employment: 'Employed'},
+    {name: 'Eric Wang', age: '27', subscription: 'Not Subscribed', employment: 'Unemployed'},
+    {name: 'Michelle Chu', age: '41', subscription: 'Subscribed', employment: 'Employed'},
+]
